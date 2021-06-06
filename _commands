@@ -1,0 +1,11 @@
+# create a Sqlite database (file)
+touch sqlite.repository
+sqlite3 sqlite.repository
+
+# create table categories
+create table categories (id varchar(255), name varchar(255));
+
+# query table categories
+select * from categories;
+
+^D 

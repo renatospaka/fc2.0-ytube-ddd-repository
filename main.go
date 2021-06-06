@@ -1,19 +1,25 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 
-	"github.com/renatospaka/fc2.0-ytube-ddd-repository/entity"
+	_ "github.com/renatospaka/fc2.0-ytube-ddd-repository/entity"
 	"github.com/renatospaka/fc2.0-ytube-ddd-repository/repository"
 	"github.com/renatospaka/fc2.0-ytube-ddd-repository/service"
 )
 
 func main() {
-	db := repository.CategoriesMemoryDb{Categories: []entity.Category{}}
-	repositoryMemory := repository.NewCategoryRepositoryMemory(db)
+	// in-memory repository
+	// db := repository.CategoriesMemoryDb{Categories: []entity.Category{}}
+	// repositoryMemory := repository.NewCategoryRepositoryMemory(db)
+	// serv := service.NewCategoryService(repositoryMemory)
 
-	serv := service.NewCategoryService(repositoryMemory)
+	// SQLite repository
+	db, _ := sql.Open("sqlite3", "./sqlite.repository")
+	repositorySQLite := repository.NewCategoryRepositorySQLite(db)
+	serv := service.NewCategoryService(repositorySQLite)
+
 	cat, _ := serv.Create("Minha Categoria")
-
 	fmt.Println(cat)
 }
